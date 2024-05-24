@@ -27,6 +27,6 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
 ```
 import jea
 img_path = r"images\frog.jpg"
-encrypt(r"images\frog.jpg", 0.5 + 0.75j)
-decrypt(r"images\frog_encrypted.png", 0.5 + 0.75j)
+jea.encrypt(r"images\frog.jpg", 0.5 + 0.75j)
+jea.decrypt(r"images\frog_encrypted.png", 0.5 + 0.75j)
 ```
