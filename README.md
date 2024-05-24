@@ -9,7 +9,7 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
 ### Encrypt 
 
 * Parameters
-  * `image_path`: Path to the image that needs to be encrypted
+  * `image_path`: Path to the image that needs to be encrypted.
   * `c`: The key (ie: password) used to encrypt the image. This is a complex function of the form `x + iy`.
 * Return
   * Saves image to `image_path_encrypted.png`
@@ -18,7 +18,7 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
 ### Decrypt 
 
 * Parameters
-  * `image_path`: Path to the image that needs to be decrypted
+  * `image_path`: Path to the image that needs to be decrypted.
   * `c`: The key (ie: password) used to decrypt the image. This is a complex function of the form `x + iy`.
 * Return
   * Saves image to `image_path_decrypted.png`
