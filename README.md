@@ -8,5 +8,27 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
 
 ### Encrypt 
 
-* Parameters:
-  * `Encrypt`:
+* Parameters
+  * `image_path`: Path to the image that needs to be encrypted
+  * `c`: The key (ie: password) used to encrypt the image. This is a complex function of the form `x + iy`.
+* Return
+  * Saves image to `image_path_encrypted.png`
+  * Returns encrypted image as `Pillow.Image`
+ 
+### Decrypt 
+
+* Parameters
+  * `image_path`: Path to the image that needs to be decrypted
+  * `c`: The key (ie: password) used to decrypt the image. This is a complex function of the form `x + iy`.
+* Return
+  * Saves image to `image_path_decrypted.png`
+  * Returns decrypted image as `Pillow.Image`
+
+## Example
+
+```
+import jea
+img_path = r"images\frog.jpg"
+encrypt(r"images\frog.jpg", 0.5 + 0.75j)
+decrypt(r"images\frog_encrypted.png", 0.5 + 0.75j)
+```
