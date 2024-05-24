@@ -9,13 +9,10 @@ from PIL import PngImagePlugin
 def _Q(z: Complex, c: Complex) -> Complex:
     return z ** (2) + c
         
-# TODO: Implement bounding function
-# def bound_num(self, c):
-#     magnitude = abs(c)
-#     if magnitude > self.threshold:
-#         c = c * self.threshold / magnitude
-
-#     return c
+def _scale_c(c):
+    # f : c -> c'
+    # function is injective (one to one)
+    return 2*c / abs(c)
         
 def _julia_set(mapping: Callable,
               c: Complex,
@@ -25,9 +22,11 @@ def _julia_set(mapping: Callable,
               max_coordinate: Complex,
               iterations_count: int,
               threshold: float) -> np.ndarray:
-
+    
     # https://rosettacode.org/wiki/Julia_set#Vectorized
-#     c = self.bound_num(c)
+    # https://codereview.stackexchange.com/a/224349
+
+    c = _scale_c(c)
 
     im, re = np.ogrid[min_coordinate.imag: max_coordinate.imag: height * 1j,
                       min_coordinate.real: max_coordinate.real: width * 1j]
@@ -38,7 +37,7 @@ def _julia_set(mapping: Callable,
 
     for i in range(iterations_count):
         z_live = z[live] = mapping(z[live], c)
-        escaped = abs(z_live) > threshold
+        escaped = z_live.real ** 2 + z_live.imag ** 2 > threshold ** 2 # see ref (2) above
         iterations[live[escaped]] = i
         live = live[~escaped]
         if live.size == 0:
@@ -46,7 +45,7 @@ def _julia_set(mapping: Callable,
     else:
         iterations[live] = iterations_count
 
-    return iterations#.reshape((height, width))
+    return iterations
 
 def encrypt(image_path: str, 
             c: Complex,
@@ -78,16 +77,16 @@ def encrypt(image_path: str,
         height = height
     )    
     
-    e_img = Image.fromarray((
+    Image.fromarray((
         (
             img.flatten() + (julia % 256)
         ) % 256
-    )[np.argsort(julia)].reshape((height, width, 3)).astype(np.uint8))
-        
-    e_img.save("%s_encrypted.png" % os.path.splitext(image_path)[0], "PNG", pnginfo=meta)
+    )[np.argsort(julia)].reshape((height, width, 3)).astype(np.uint8)).save(
+        "%s_encrypted.png" % os.path.splitext(image_path)[0], 
+        "PNG", 
+        pnginfo=meta
+    )
     
-    return e_img
-
 def decrypt(image_path: str, c: Complex): 
     image = Image.open(image_path)
     img_info = image.info
@@ -106,12 +105,12 @@ def decrypt(image_path: str, c: Complex):
         threshold = float(img_info["threshold"])
     )
 
-    d_img = Image.fromarray((
+    Image.fromarray((
         (
             img.flatten()[np.argsort(np.argsort(julia))] - 
             (julia % 256)
         ) % 256       
-    ).reshape((height, width, 3)).astype(np.uint8))
-    
-    d_img.save("%s_decrypted.png" % os.path.splitext(image_path)[0], "PNG")
-    return d_img
+    ).reshape((height, width, 3)).astype(np.uint8)).save(
+        "%s_decrypted.png" % os.path.splitext(image_path)[0], 
+        "PNG"
+    )
