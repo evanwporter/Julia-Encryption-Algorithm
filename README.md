@@ -4,7 +4,7 @@ Proof of concept for how the filled julia set can be used to encryt and decrypt 
 
 ![encrypted-decrypted frog](https://github.com/evanwporter/Julia-Encryption-Algorithm/assets/115374841/4dcf51a7-a7b7-479e-b0c5-6398eb84058a)
 
-To use this library, simply download the [JEA folder](https://github.com/evanwporter/Julia-Encryption-Algorithm/jea). Two functions are inside: `encrypt` and `decrypt`.
+To use this library, simply download the [JEA folder](https://github.com/evanwporter/Julia-Encryption-Algorithm/tree/main/jea). Two functions are inside: `encrypt` and `decrypt`.
 
 ### Encrypt 
 
