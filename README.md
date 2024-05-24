@@ -13,7 +13,6 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
   * `c`: The key (ie: password) used to encrypt the image. This is a complex function of the form `x + iy`.
 * Return
   * Saves image to `image_path_encrypted.png`
-  * Returns encrypted image as `Pillow.Image`
  
 ### Decrypt 
 
@@ -22,8 +21,7 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
   * `c`: The key (ie: password) used to decrypt the image. This is a complex function of the form `x + iy`.
 * Return
   * Saves image to `image_path_decrypted.png`
-  * Returns decrypted image as `Pillow.Image`
-
+    
 ## Example
 
 ```
