@@ -26,6 +26,7 @@ def _julia_set(mapping: Callable,
               iterations_count: int,
               threshold: float) -> np.ndarray:
 
+    # https://rosettacode.org/wiki/Julia_set#Vectorized
 #     c = self.bound_num(c)
 
     im, re = np.ogrid[min_coordinate.imag: max_coordinate.imag: height * 1j,
