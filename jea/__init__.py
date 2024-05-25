@@ -6,50 +6,51 @@ import os
 from PIL import Image
 from PIL import PngImagePlugin
 
-def _Q(z: Complex, c: Complex) -> Complex:
-    return z ** (2) + c
+from .julia_set import julia_set
+
+# def _Q(z: Complex, c: Complex) -> Complex:
+#     return z ** (2) + c
         
 def _scale_c(c):
     # f : c -> c'
     # function is injective (one to one)
     return 2*c / abs(c)
         
-def _julia_set(mapping: Callable,
-              c: Complex,
-              height: int,
-              width: int,
-              min_coordinate: Complex,
-              max_coordinate: Complex,
-              iterations_count: int,
-              threshold: float) -> np.ndarray:
+# def _julia_set(mapping: Callable,
+#               c: Complex,
+#               height: int,
+#               width: int,
+#               min_coordinate: Complex,
+#               max_coordinate: Complex,
+#               iterations_count: int,
+#               threshold: float) -> np.ndarray:
     
-    # https://rosettacode.org/wiki/Julia_set#Vectorized
-    # https://codereview.stackexchange.com/a/224349
+#     # https://rosettacode.org/wiki/Julia_set#Vectorized
+#     # https://codereview.stackexchange.com/a/224349
 
-    c = _scale_c(c)
+#     c = _scale_c(c)
 
-    im, re = np.ogrid[min_coordinate.imag: max_coordinate.imag: height * 1j,
-                      min_coordinate.real: max_coordinate.real: width * 1j]
-    z = (re + 1j * im).flatten()
+#     im, re = np.ogrid[min_coordinate.imag: max_coordinate.imag: height * 1j,
+#                       min_coordinate.real: max_coordinate.real: width * 1j]
+#     z = (re + 1j * im).flatten()
 
-    live, = np.indices(z.shape)  # indexes of pixels that have not escaped
-    iterations = np.empty_like(z, dtype=int)
+#     live, = np.indices(z.shape)  # indexes of pixels that have not escaped
+#     iterations = np.empty_like(z, dtype=int)
 
-    for i in range(iterations_count):
-        z_live = z[live] = mapping(z[live], c)
-        escaped = z_live.real ** 2 + z_live.imag ** 2 > threshold ** 2 # see ref (2) above
-        iterations[live[escaped]] = i
-        live = live[~escaped]
-        if live.size == 0:
-            break
-    else:
-        iterations[live] = iterations_count
+#     for i in range(iterations_count):
+#         z_live = z[live] = mapping(z[live], c)
+#         escaped = z_live.real ** 2 + z_live.imag ** 2 > threshold ** 2 # see ref (2) above
+#         iterations[live[escaped]] = i
+#         live = live[~escaped]
+#         if live.size == 0:
+#             break
+#     else:
+#         iterations[live] = iterations_count
 
-    return iterations
+#     return iterations
 
 def encrypt(image_path: str, 
             c: Complex,
-            mapping: Callable = _Q,
             min_coordinate: Complex = -.25 - .25j, 
             max_coordinate: Complex = .25 + .25j, 
             iterations_count: int = 256, 
@@ -66,9 +67,8 @@ def encrypt(image_path: str,
     img = np.asarray(Image.open(image_path))
     height, width, _ = img.shape
     
-    julia = _julia_set(
+    julia = julia_set(
         c = c,
-        mapping = mapping,
         min_coordinate = min_coordinate, 
         max_coordinate = max_coordinate, 
         iterations_count = iterations_count, 
@@ -94,9 +94,8 @@ def decrypt(image_path: str, c: Complex):
     img = np.asarray(image)
     height, width, _ = img.shape
         
-    julia = _julia_set(
+    julia = julia_set(
         c = c, 
-        mapping = _Q, 
         width = width * 3, 
         height = height, 
         min_coordinate = complex(img_info["min_coordinate"]),
@@ -114,3 +113,11 @@ def decrypt(image_path: str, c: Complex):
         "%s_decrypted.png" % os.path.splitext(image_path)[0], 
         "PNG"
     )
+    
+# Experimental code to make converting PNG metadata easier
+# class ImgPNG(Image.Image):
+#     def save(self, path, **kwargs):
+#         meta = PngImagePlugin.PngInfo()
+#         for key, value in self.info.items():
+#             meta.add_text(key, str(val), zip=True)
+#         super().save(path, "PNG", pnginfo=meta)
