@@ -8,47 +8,6 @@ from PIL import PngImagePlugin
 
 from .julia_set import julia_set
 
-# def _Q(z: Complex, c: Complex) -> Complex:
-#     return z ** (2) + c
-        
-def _scale_c(c):
-    # f : c -> c'
-    # function is injective (one to one)
-    return 2*c / abs(c)
-        
-# def _julia_set(mapping: Callable,
-#               c: Complex,
-#               height: int,
-#               width: int,
-#               min_coordinate: Complex,
-#               max_coordinate: Complex,
-#               iterations_count: int,
-#               threshold: float) -> np.ndarray:
-    
-#     # https://rosettacode.org/wiki/Julia_set#Vectorized
-#     # https://codereview.stackexchange.com/a/224349
-
-#     c = _scale_c(c)
-
-#     im, re = np.ogrid[min_coordinate.imag: max_coordinate.imag: height * 1j,
-#                       min_coordinate.real: max_coordinate.real: width * 1j]
-#     z = (re + 1j * im).flatten()
-
-#     live, = np.indices(z.shape)  # indexes of pixels that have not escaped
-#     iterations = np.empty_like(z, dtype=int)
-
-#     for i in range(iterations_count):
-#         z_live = z[live] = mapping(z[live], c)
-#         escaped = z_live.real ** 2 + z_live.imag ** 2 > threshold ** 2 # see ref (2) above
-#         iterations[live[escaped]] = i
-#         live = live[~escaped]
-#         if live.size == 0:
-#             break
-#     else:
-#         iterations[live] = iterations_count
-
-#     return iterations
-
 def encrypt(image_path: str, 
             c: Complex,
             min_coordinate: Complex = -.25 - .25j, 
