@@ -10,7 +10,7 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
 
 * Parameters
   * `image_path`: Path to the image that needs to be encrypted.
-  * `c`: The key (ie: password) used to encrypt the image. This is a complex function of the form `x + iy`.
+  * `c`: The key (ie: password) used to encrypt the image. This is a complex function of the form `x + iy` where `x` and `y` are real numbers.
   * `min_coordinate`: minimum x-y coordinate to generate the Julia set with.
   * `max_coordinate`: maximum x-y coordinate to generate the Julia set with.
   * `iterations_count`: max number of iterations to generate the Julia set with.
@@ -25,10 +25,6 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
   * `c`: The key (ie: password) used to decrypt the image. This is a complex function of the form `x + iy`.
 * Return
   * Saves image to `image_path_decrypted.png`
-
-### Notes on `c`
-
-The beauty of the program is that any real number can be used for values of `x` and `y` since the program automatically scales the magnitude of c to be constrained between 0 and the threshold..
     
 ## Example
 
