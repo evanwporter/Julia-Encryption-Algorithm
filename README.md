@@ -16,7 +16,7 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
   * `iterations_count`: max number of iterations to generate the Julia set with.
   * `threshold`: when the orbit of Q exceeds the threshold then its assumed that the orbit has escaped.
 * Return
-  * Saves image to `image_path_encrypted.png`
+  * Saves image to `image_path_encrypted.png`. The parameters used to generate the julia set are saved in the image file's metadata.
  
 ### Decrypt 
 
