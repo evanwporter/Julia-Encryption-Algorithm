@@ -24,7 +24,7 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
 
 ### Notes on `c`
 
-The beauty of the program is that any real number can be used for values of `x` and `y`.
+The beauty of the program is that any real number can be used for values of `x` and `y` since the program automatically scales the magnitude of c to be constrained between 0 and the threshold..
     
 ## Example
 
