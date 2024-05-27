@@ -11,6 +11,10 @@ To use this library, simply download the [JEA folder](https://github.com/evanwpo
 * Parameters
   * `image_path`: Path to the image that needs to be encrypted.
   * `c`: The key (ie: password) used to encrypt the image. This is a complex function of the form `x + iy`.
+  * `min_coordinate`: minimum x-y coordinate to generate the Julia set with.
+  * `max_coordinate`: maximum x-y coordinate to generate the Julia set with.
+  * `iterations_count`: max number of iterations to generate the Julia set with.
+  * `threshold`: when the orbit of Q exceeds the threshold then its assumed that the orbit has escaped.
 * Return
   * Saves image to `image_path_encrypted.png`
  
